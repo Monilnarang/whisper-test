@@ -172,13 +172,13 @@ def load_whisper_model():
     model_info = {}
 
     try:
-        print("Loading Whisper turbo model...")
+        print("Loading Whisper large-v3 model...")
         start_time = time.time()
 
         # Get memory before loading
         mem_before = psutil.virtual_memory().available / (1024**3)
 
-        _model = whisper.load_model("turbo")
+        _model = whisper.load_model("large-v3")
 
         # Get memory after loading
         mem_after = psutil.virtual_memory().available / (1024**3)
@@ -190,7 +190,7 @@ def load_whisper_model():
             'memory_used_gb': round(mem_before - mem_after, 2),
             'memory_before_gb': round(mem_before, 2),
             'memory_after_gb': round(mem_after, 2),
-            'model_name': 'turbo'
+            'model_name': 'large-v3'
         }
 
         print(f"Model loaded successfully in {load_time:.2f} seconds")
@@ -364,7 +364,7 @@ PERFORMANCE ASSESSMENT:
         model_memory = model_info.get('memory_used_gb', 0)
 
         if total_memory >= 4 and model_info.get('model_loaded'):
-            report += "✅ EXCELLENT: System has sufficient memory for Whisper turbo model\n"
+            report += "✅ EXCELLENT: System has sufficient memory for Whisper large-v3 model\n"
         elif total_memory >= 2:
             report += "⚠️  MARGINAL: System may work but could be slow or fail with large files\n"
         else:
