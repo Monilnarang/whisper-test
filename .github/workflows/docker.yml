@@ -1,24 +1,28 @@
-# Test Dockerfile for Whisper on Render
-FROM python:3.11-slim
+name: Build and Push Docker Image
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+on:
+  push:
+    branches:
+      - main
 
-# Set working directory
-WORKDIR /app
-
-# Install Python dependencies
-COPY requirements.test.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy test application
-COPY test_app.py app.py
-COPY .env .
-
-# Expose port
-EXPOSE 5000
-
-# Run the test app
-CMD ["python", "app.py"]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/monilnarang/whisper-test:latest
