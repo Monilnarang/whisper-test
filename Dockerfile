@@ -10,12 +10,11 @@ RUN apt-get update && apt-get install -y \
 WORKDIR /app
 
 # Install Python dependencies
-COPY requirements.test.txt requirements.txt
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy test application
 COPY test_app.py app.py
-COPY .env .
 
 # Expose port
 EXPOSE 5000
