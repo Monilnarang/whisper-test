@@ -172,13 +172,13 @@ def load_whisper_model():
     model_info = {}
 
     try:
-        print("Loading Whisper large-v3 model...")
+        print("Loading Whisper tiny model...")
         start_time = time.time()
 
         # Get memory before loading
         mem_before = psutil.virtual_memory().available / (1024**3)
 
-        _model = whisper.load_model("large-v3")
+        _model = whisper.load_model("tiny")
 
         # Get memory after loading
         mem_after = psutil.virtual_memory().available / (1024**3)
@@ -190,7 +190,7 @@ def load_whisper_model():
             'memory_used_gb': round(mem_before - mem_after, 2),
             'memory_before_gb': round(mem_before, 2),
             'memory_after_gb': round(mem_after, 2),
-            'model_name': 'large-v3'
+            'model_name': 'tiny'
         }
 
         print(f"Model loaded successfully in {load_time:.2f} seconds")
